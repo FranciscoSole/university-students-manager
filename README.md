@@ -3,3 +3,5 @@ En mi primer cuatrimestre de 2023 arrancamos con Java y como TPO tuvimos que hac
 
 La interfaz debía tener: inicializarLista, agregarElemento, haySiguiente, siguiente, eliminarElemento, ordenarLista.
 Debía hacerse utilizando TDA de Lista Dinámica y estrucctura de lista enlazada.
+
+En este TPO fui el lider del grupo y principal desarrollador.
