@@ -14,6 +14,7 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 	public void agregarElemento(Alumno a) {
 		if(noExiste(a.getLeg())) {
 			cantTotalAlumn++;
+			ordenado = false;
 			
 			if(primero == null) {
 				primero = a;
@@ -22,8 +23,7 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 			}
 			ultimo = a;
 			
-			System.out.println("\n[Info] Se agrego el alumno '"+a.getNombre()+" "+a.getApellido()+"' con el legajo "+a.getLeg());
-			ordenado = false;
+			System.out.println("\n[Info] Se agrego el alumno '"+a.getNombre()+" "+a.getApellido()+"' con el legajo "+a.getLeg());			
 		} else {
 			System.out.println("Error: ya existe un alumno con el legajo "+a.getLeg()+"\n");
 		}
@@ -62,12 +62,10 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 					primero = primero.siguiente();
 				} else if(donde.equals("siguiente")) {
 					viajero.sig = viajero.siguiente().siguiente();
-				} else {
-					//viajero.sig = anterior; //ahora siguiente apunta al anterior
-					//ultimo = anterior; //y el ultimo es el anterior
-					anterior.sig = null;
-					viajero = anterior;
-					ultimo = anterior;
+				} else { 
+					anterior.sig = null; //ahora siguiente apunta a null porque sería el nuevo último
+					viajero = anterior; // viajero ahora (que queda en el aire porque se eliminó su referencia) se apunta al anterior
+					ultimo = anterior; //y el ultimo es el anterior
 				}
 				cantTotalAlumn--;
 				ordenado = false;
@@ -75,8 +73,8 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 				if(cantTotalAlumn == 0) {
 					inicializarLista(); 
 				} else if (cantTotalAlumn == 1) {
-		            ultimo = primero;
-		        }
+					ultimo = primero;
+				}
 			}
 		}
 	}
@@ -96,7 +94,7 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 					aux.sig = viajero; //y al nodo que apunta el siguiente del siguiente (o sea, el siguiente de aux), pasa a ser al actual. Basicamente intercambian punteros (o "posiciones" dicho de otra forma)
 					
                     if (viajero == primero) { //Si cuando arrancó la comparación el apellido del siguiente directo era "menor", 
-                        primero = aux;  //el "nuevo primero" pasa a ser el siguiente a viajero (aux) porque el viajero, implicitamente, pasaría a ser el primero. Ej: apellido primero = B, apellido del siguiente A -> el siguiente debería ser el primero, entonces intercambian posiciones para que quede: apellido primero = A, apellido siguiente = B  
+                        primero = aux; //el "nuevo primero" pasa a ser el siguiente a viajero (aux) porque el viajero, implicitamente, pasaría a ser el primero. Ej: apellido primero = B, apellido del siguiente A -> el siguiente debería ser el primero, entonces intercambian posiciones para que quede: apellido primero = A, apellido siguiente = B  
                     } else { //si no son iguales
                         Alumno anterior = primero;
                         
@@ -108,8 +106,6 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 				}
 				viajero = viajero.siguiente();
 			}
-
-			//if(viajero != null && huboCambio) {} //si en algun momento se eliminó algún elemento
 			ultimo = viajero; //en cada iteración le da el valor actual del ultimo y en la proxima pasada lo acomoda como corresponde para que quede bien después al agregar otro alumno. Es medio raro y no termino de entender cómo funciona, lo probé por probar y funcionó
 		}
 		ordenado = true;
@@ -120,9 +116,8 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 			ordenarLista();
 		}
 		
-		Alumno viajero = primero;
-		
 		System.out.println("--------- Lista de alumnos ---------");
+		Alumno viajero = primero;
 		while(viajero.haySiguiente()) {
 			System.out.println("Numero de legajo: "+viajero.getLeg()+" | Nombre: "+viajero.getNombre()+" | Apellido: "+viajero.getApellido());
 			viajero = viajero.siguiente();
