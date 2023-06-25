@@ -5,6 +5,7 @@ import ejecucion.Menu; //es solamente para un print
 public class Lista implements ListaTDA{ //entiendo que por el implements me obligue a poner funciones ya hechas en Alumno, pero no se puede evitar?
 	Alumno primero, ultimo;
 	int cantTotalAlumn;
+	boolean ordenado = false;
 	
 	public void inicializarLista() {
 		primero = ultimo = null;
@@ -22,6 +23,7 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 			ultimo = a;
 			
 			System.out.println("\n[Info] Se agrego el alumno '"+a.getNombre()+" "+a.getApellido()+"' con el legajo "+a.getLeg());
+			ordenado = false;
 		} else {
 			System.out.println("Error: ya existe un alumno con el legajo "+a.getLeg()+"\n");
 		}
@@ -45,7 +47,7 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 					donde = "siguiente";
 					aux = viajero.siguiente();
 				} else { //si no hay siguiente (o sea que el legajo a eliminar es parte del ultimo objeto en la lista)
-					while(anterior != viajero) { //avanza hasta encontrar el anterior a viajero, no es necesario el haySiguiente() porque si entró a este bloque significa que viajero está en la última posición, por lo que "anterior" nunca llegaría hasta ahí
+					while(anterior.siguiente() != viajero) { //avanza hasta encontrar el anterior a viajero, no es necesario el haySiguiente() porque si entró a este bloque significa que viajero está en la última posición, por lo que "anterior" nunca llegaría hasta ahí
 						anterior = anterior.siguiente();
 					}
 					
@@ -61,17 +63,21 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 				} else if(donde.equals("siguiente")) {
 					viajero.sig = viajero.siguiente().siguiente();
 				} else {
-					viajero.sig = anterior; //ahora siguiente apunta al anterior
-					ultimo = anterior; //y el ultimo es el anterior
+					//viajero.sig = anterior; //ahora siguiente apunta al anterior
+					//ultimo = anterior; //y el ultimo es el anterior
+					anterior.sig = null;
+					viajero = anterior;
+					ultimo = anterior;
 				}
+				cantTotalAlumn--;
+				ordenado = false;
+				
+				if(cantTotalAlumn == 0) {
+					inicializarLista(); 
+				} else if (cantTotalAlumn == 1) {
+		            ultimo = primero;
+		        }
 			}
-			
-			cantTotalAlumn--;
-			if(cantTotalAlumn == 0) {
-				inicializarLista(); 
-			} else if (cantTotalAlumn == 1) {
-	            ultimo = primero;
-	        }
 		}
 	}
 
@@ -106,10 +112,14 @@ public class Lista implements ListaTDA{ //entiendo que por el implements me obli
 			//if(viajero != null && huboCambio) {} //si en algun momento se eliminó algún elemento
 			ultimo = viajero; //en cada iteración le da el valor actual del ultimo y en la proxima pasada lo acomoda como corresponde para que quede bien después al agregar otro alumno. Es medio raro y no termino de entender cómo funciona, lo probé por probar y funcionó
 		}
+		ordenado = true;
 	}
 
 	public void imprimirLista() {
-		ordenarLista();
+		if(!ordenado) {
+			ordenarLista();
+		}
+		
 		Alumno viajero = primero;
 		
 		System.out.println("--------- Lista de alumnos ---------");

@@ -19,7 +19,7 @@ public class Ejecucion {
 		String nombre, apellido, seguir = "S";
 		int legajo;
 		
-		while(!seguir.equalsIgnoreCase("N")) {
+		while(!seguir.equalsIgnoreCase("N")) { 
 			System.out.print("Ingrese un nombre: "); nombre = sc.nextLine();
 			if(!nombre.isEmpty()) {
 				System.out.print("Ingrese un apellido: "); apellido = sc.nextLine();
