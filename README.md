@@ -14,7 +14,7 @@
 - Crear alumnos, notificando si el estudiante ya existe
 - Eliminar alumnos
 - Listar alumnos de forma ascendente por apellido
-- Utiliza los TDA de Lista dinmámica y lista enlazada
+- Utiliza los TDA de lista dinámica y lista enlazada
   
 ## Introduction / Introducción
 
